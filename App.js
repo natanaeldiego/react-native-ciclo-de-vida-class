@@ -10,24 +10,25 @@ import React, {Component} from 'react';
 import {View, Text, ActivityIndicator} from 'react-native';
 
 export default class App extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {date: new Date(), loading: true};
-    this.isMemory = true;
   }
 
   componentDidMount() {
+    this._isMounted = true;
     this.timerID = setInterval(() => this.tick(), 1000);
     this.setState({loading: false});
   }
 
   componentWillUnmount() {
     clearInterval(this.timerID);
-    this.isMemory = false;
+    this._isMounted = false;
   }
 
   tick() {
-    if (this.isMemory) {
+    if (this._isMounted) {
       this.setState({
         date: new Date(),
       });
